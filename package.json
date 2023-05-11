@@ -1,0 +1,14 @@
+{
+  "name": "data-structure-and-algorithm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "AVLTree.js",
+  "scripts": {
+    "test": "npm jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
+}
