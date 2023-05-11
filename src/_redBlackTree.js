@@ -1,5 +1,3 @@
-// 香港个开户：渣打，汇丰，星展，民生，恒生，南洋，中信，
-
 // Every path from the root to a leaf contains the same number of black nodes.
 // https://math.stackexchange.com/questions/1685705/black-depth-in-red-black-tree
 

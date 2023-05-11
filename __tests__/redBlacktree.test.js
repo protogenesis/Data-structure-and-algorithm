@@ -1,4 +1,4 @@
-const RedBlackTree = require("../redBlackTree")
+const RedBlackTree = require("../src/redBlackTree")
 
 // Helper function to create a RedBlackTree from an array of keys
 function createTree(keys) {

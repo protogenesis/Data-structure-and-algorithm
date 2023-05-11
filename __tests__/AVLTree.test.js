@@ -1,4 +1,4 @@
-const AVLTree = require("../AVLTree")
+const AVLTree = require("../src/AVLTree")
 
 describe("AVLTree", () => {
   let tree
