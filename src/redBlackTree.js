@@ -356,17 +356,17 @@ class RedBlackTree {
   }
 }
 
-const tree = new RedBlackTree()
-tree.insert(30)
-tree.insert(20)
-tree.insert(40)
-tree.insert(50)
-tree.insert(35)
+// const tree = new RedBlackTree()
+// tree.insert(30)
+// tree.insert(20)
+// tree.insert(40)
+// tree.insert(50)
+// tree.insert(35)
 
-tree.delete(20)
-tree.insert(60)
-tree.insert(45)
-debugger
-tree.delete(50)
+// tree.delete(20)
+// tree.insert(60)
+// tree.insert(45)
+// debugger
+// tree.delete(50)
 
 module.exports = RedBlackTree
