@@ -1,4 +1,4 @@
-function climbingStair(n) {
+function climbingStair(n: number): number {
   // n > >= 0
   if (n <= 3) {
     return n

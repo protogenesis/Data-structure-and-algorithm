@@ -1,46 +1,46 @@
 class HashTable {
-  constructor(size) {
-    this.table = new Array(size)
-    this.size = size
+  public table: string[][][]
+  public size: number
+  constructor() {
+    this.table = []
+    this.size = 0
   }
 
-  hashCode(key) {
-    let index = 0;
-    for(let i = 0; i < key.length; i++) {
+  hashCode(key: string) {
+    let index = 0
+    for (let i = 0; i < key.length; i++) {
       index += key.charCodeAt(i)
     }
     return index % this.size
   }
 
-  set(key, value) {
+  set(key: string, value: string) {
     const index = this.hashCode(key)
-    let bucket = this.table[index]
-    
-    if(!bucket) {
+    let bucket: string[][] | undefined = this.table[index]
+
+    if (!bucket || !bucket.length) {
       bucket = [[key, value]]
-    }else {
+    } else {
       const item = bucket.find(([itemKey]) => itemKey === key)
-      if(item) {
+      if (item) {
         item[1] = value
-      }else {
+      } else {
         bucket.push([key, value])
       }
     }
-
-      
     this.table[index] = bucket
   }
 
-  get(key) {
+  get(key: string) {
     const index = this.hashCode(key)
     const bucket = this.table[index]
-    if(!bucket) {
+    if (!bucket) {
       return null
     }
 
     const item = bucket.find(([itemKey]) => itemKey === key)
 
-    if(!item) {
+    if (!item) {
       return null
     }
 
@@ -52,14 +52,13 @@ class HashTable {
   }
 }
 
-
 const hashTable = new HashTable()
-hashTable.set('name', 'liao')
+hashTable.set("name", "liao")
 
-console.log(hashTable.get('name'))
+console.log(hashTable.get("name"))
 
-hashTable.set('mane', 'oho')
+hashTable.set("mane", "oho")
 
-console.log(hashTable.get('mane'))
-console.log(hashTable.get('name'))
-console.log(hashTable.get('nae'))
+console.log(hashTable.get("mane"))
+console.log(hashTable.get("name"))
+console.log(hashTable.get("nae"))

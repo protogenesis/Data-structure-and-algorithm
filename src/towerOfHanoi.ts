@@ -1,4 +1,4 @@
-function towerOfHanoi(n, fromRod, toRod, usingRod) {
+function towerOfHanoi(n: number, fromRod: string, toRod: string, usingRod: string) {
   if(n === 1) {
     console.log(`Move disk 1 from ${fromRod} to ${toRod}`)
     return

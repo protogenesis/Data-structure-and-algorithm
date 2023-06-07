@@ -1,4 +1,4 @@
-function insertionSort(arr) { 
+function insertionSort(arr: number[]) { 
   for (let index = 1; index < arr.length; index++) {
     const numberToSort = arr[index]
     

@@ -1,4 +1,4 @@
-function factorial(number) {
+function factorial(number: number) {
   if(number === 0) {
     return 1
   }

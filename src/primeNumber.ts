@@ -1,4 +1,4 @@
-function primeNumber(number) {
+function primeNumber(number: number) {
   if (number < 2) {
     return false
   }

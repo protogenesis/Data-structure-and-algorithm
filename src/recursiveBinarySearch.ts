@@ -1,6 +1,7 @@
-function recursiveBinarySearch(arr, target) {
-  let left = 0, right = arr.length - 1;
-  function recursion(left, right) {
+function recursiveBinarySearch(arr: number[], target: number) {
+  let left = 0,
+    right = arr.length - 1
+  function recursion(left: number, right: number): number {
     if (left > right) {
       return -1
     }

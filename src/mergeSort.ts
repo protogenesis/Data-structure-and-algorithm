@@ -1,4 +1,4 @@
-function mergeSort(arr) {
+function mergeSort(arr: number[]): number[] {
   if(arr.length < 2) {
     return arr
   }
@@ -14,14 +14,14 @@ function mergeSort(arr) {
   return merge(sortedLeft, sortedRight)
 }
 
-function merge(leftArr, rightArr) {
-  const sortedArr = []
+function merge(leftArr: number[], rightArr: number[]): number[] {
+  const sortedArr: number[] = []
 
   while(leftArr.length && rightArr.length) {
      if(leftArr[0] > rightArr[0]) {
-       sortedArr.push(rightArr.shift())
+       sortedArr.push(rightArr.shift() as number)
      }else {
-       sortedArr.push(leftArr.shift())
+       sortedArr.push(leftArr.shift() as number)
      }
   }
 

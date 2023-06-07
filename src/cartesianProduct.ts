@@ -1,5 +1,5 @@
-function cartesianProduct(arr1, arr2) {
-  const resultArr = []
+function cartesianProduct(arr1: number[], arr2: number[]) {
+  const resultArr: string[] = []
   for (let i = 0; i < arr1.length; i++) {
     for (let j = 0; j < arr2.length; j++) {
       const item = `${arr1[i]}${arr2[j]}`
