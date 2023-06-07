@@ -1,5 +1,8 @@
 class Node {
-  constructor(value) {
+  height: number
+  left: Node | null
+  right: Node | null
+  constructor(public value: number) {
     this.value = value
     this.height = 1
     this.left = null
@@ -8,23 +11,24 @@ class Node {
 }
 
 class AVLTree {
+  root: Node | null
   constructor() {
     this.root = null
   }
 
-  insert(value) {
+  insert(value: number) {
     const node = new Node(value)
     this.root = this.insertNode(this.root, node)
   }
 
-  insertNode(root, node) {
+  insertNode(root: Node | null, node: Node) {
     const value = node.value
 
     if (!root) {
       return node
     }
 
-    if (value < root.value) {
+    if (value && value < root.value) {
       root.left = this.insertNode(root.left, node)
     } else {
       root.right = this.insertNode(root.right, node)
@@ -34,18 +38,18 @@ class AVLTree {
 
     const balanceFactor = this.getBalanceFactor(root)
 
-    if (balanceFactor > 1 && value < root.left.value) {
+    if (balanceFactor > 1 && root.left && value < root.left.value) {
       // left left case
       root = this.rightRotation(root)
-    } else if (balanceFactor > 1 && value > root.left.value) {
+    } else if (balanceFactor > 1 && root.left && value > root.left.value) {
       // left right case
       root.left = this.leftRotation(root.left)
       root = this.rightRotation(root)
-    } else if (balanceFactor < -1 && value < root.right.value) {
+    } else if (balanceFactor < -1 && root.right && value < root.right.value) {
       // right left case
       root.right = this.rightRotation(root.right)
       root = this.leftRotation(root)
-    } else if (balanceFactor < -1 && value > root.right.value) {
+    } else if (balanceFactor < -1 && root.right && value > root.right.value) {
       // right right case
       root = this.leftRotation(root)
     }
@@ -53,7 +57,7 @@ class AVLTree {
     return root
   }
 
-  getBalanceFactor(node) {
+  getBalanceFactor(node: Node) {
     let leftHeight = 0
     let rightHeight = 0
 
@@ -68,8 +72,12 @@ class AVLTree {
     return leftHeight - rightHeight
   }
 
-  leftRotation(node) {
+  leftRotation(node: Node) {
     const right = node.right
+    if (!right) {
+      return node
+    }
+
     const leftSubTree = right.left
 
     right.left = node
@@ -81,8 +89,11 @@ class AVLTree {
     return right
   }
 
-  rightRotation(node) {
+  rightRotation(node: Node) {
     const left = node.left
+    if (!left) {
+      return left
+    }
     const rightSubTree = left.right
 
     left.right = node
@@ -94,7 +105,7 @@ class AVLTree {
     return left
   }
 
-  getHeight(node) {
+  getHeight(node: Node) {
     if (!node) {
       return 0
     }
@@ -105,9 +116,9 @@ class AVLTree {
     return Math.max(leftHeight, rightHeight) + 1
   }
 
-  findMinSubNode(node) {
+  findMinSubNode(node: Node) {
     if (!node) {
-      return null
+      return node
     }
 
     let current = node
@@ -119,11 +130,11 @@ class AVLTree {
     return current
   }
 
-  remove(value) {
+  remove(value: number) {
     this.root = this.removeNode(this.root, value)
   }
 
-  removeNode(root, value) {
+  removeNode(root: Node | null, value: number) {
     if (!root) {
       return null
     }
@@ -150,14 +161,18 @@ class AVLTree {
       }
     }
 
+    if(!root) {
+      return root
+    }
+
     root.height = this.getHeight(root)
 
     return root
   }
 
-  search(root, value) {
+  search(root: Node | null, value: number): Node | null {
     if (!root) {
-      return null
+      return root
     }
 
     if (value === root.value) {
@@ -169,18 +184,18 @@ class AVLTree {
     }
   }
 
-  preOrder(root) {
+  preOrder(root: Node | null) {
     if (!root) {
       return
     }
-    let current = root
+    const current = root
 
     console.log(current.value)
     this.preOrder(current.left)
     this.preOrder(current.right)
   }
 }
-module.exports = AVLTree
+export default AVLTree
 
 // const tree = new AVLTree()
 

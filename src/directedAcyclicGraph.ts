@@ -1,20 +1,22 @@
 class Node {
-  constructor(value) {
+  public children: Set<Node>
+  constructor(public value: string) {
     this.value = value
     this.children = new Set()
   }
 
-  addChild(node) {
+  addChild(node: Node) {
     this.children.add(node)
   }
 }
 
 class DirectedAcyclicGraph {
+  public vertices: Node[]
   constructor() {
     this.vertices = []
   }
 
-  addVertex(value) {
+  addVertex(value: string) {
     const filtered = this.vertices.filter((vertex) =>
       vertex.value.includes(value)
     )
@@ -29,15 +31,15 @@ class DirectedAcyclicGraph {
     return node
   }
 
-  addEdge(source, target) {
+  addEdge(source: Node, target: Node) {
     source.addChild(target)
   }
 
   topologicalSort() {
-    const sortedVertices = []
+    const sortedVertices: Node[] = []
     const visitedVertices = new Set()
 
-    function depthFirstSearch(node) {
+    function depthFirstSearch(node: Node) {
       if (visitedVertices.has(node)) {
         return
       }
@@ -71,7 +73,7 @@ class DirectedAcyclicGraph {
     const visitedVertices = new Set()
     const recursionStack = new Set()
 
-    function hasCycle(node) {
+    function hasCycle(node: Node) {
       visitedVertices.add(node)
       recursionStack.add(node)
 
@@ -99,7 +101,7 @@ class DirectedAcyclicGraph {
   }
 }
 
-module.exports = DirectedAcyclicGraph
+export default DirectedAcyclicGraph
 
 // const dag = new DirectedAcyclicGraph()
 

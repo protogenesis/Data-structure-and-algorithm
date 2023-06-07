@@ -1,5 +1,10 @@
+type NodeOrNull = Node | null
 class Node {
-  constructor(value) {
+  public parent: NodeOrNull
+  public left: NodeOrNull
+  public right: NodeOrNull
+  public color: 0 | 1
+  constructor(public value: number) {
     this.value = value
     this.parent = null
     this.left = null
@@ -7,16 +12,17 @@ class Node {
     this.color = Node.red
   }
 
-  static black = 0
-  static red = 1
+  static black = 0 as const
+  static red = 1 as const
 }
 
 class RedBlackTree {
+  root: NodeOrNull
   constructor() {
     this.root = null
   }
 
-  insert(value) {
+  insert(value: number) {
     const node = new Node(value)
 
     if (!this.root) {
@@ -52,7 +58,7 @@ class RedBlackTree {
     }
   }
 
-  _fixInsert(node) {
+  _fixInsert(node: Node) {
     while (node.parent && node.parent.color === Node.red) {
       const parent = node.parent
       const grandParent = parent.parent
@@ -78,7 +84,7 @@ class RedBlackTree {
           this.rotateRight(grandParent)
         }
       } else {
-        const uncle = grandParent.left
+        const uncle = grandParent?.left
 
         if (uncle && uncle.color === Node.red) {
           parent.color = Node.black
@@ -90,25 +96,39 @@ class RedBlackTree {
           if (parent.left === node) {
             this.rotateRight(parent)
 
-            grandParent.right = node
+            if (grandParent) {
+              grandParent.right = node
+            }
           }
-          grandParent.right.color = Node.black
-          grandParent.color = Node.red
+
+          if (grandParent) {
+            if (grandParent.right) {
+              grandParent.right.color = Node.black
+            }
+            grandParent.color = Node.red
+          }
 
           this.rotateLeft(grandParent)
         }
       }
     }
 
-    this.root.color = Node.black
+    if (this.root) {
+      this.root.color = Node.black
+    }
   }
 
-  rotateLeft(node) {
+  rotateLeft(node: NodeOrNull) {
+    if (!node?.right) {
+      return node
+    }
+
     const right = node.right
     const left = right.left
 
     node.right = left
-    if (left) {
+
+    if (left && node.right) {
       node.right.parent = node
     }
 
@@ -121,12 +141,15 @@ class RedBlackTree {
     node.parent = right
   }
 
-  rotateRight(node) {
+  rotateRight(node: NodeOrNull) {
+    if (!node?.left) {
+      return node
+    }
     const left = node.left
     const right = left.right
 
     node.left = right
-    if (right) {
+    if (right && node.left) {
       node.left.parent = node
     }
 
@@ -139,7 +162,7 @@ class RedBlackTree {
     node.parent = left
   }
 
-  delete(value) {
+  delete(value: number) {
     let current = this.root
     let u = null
 
@@ -152,21 +175,27 @@ class RedBlackTree {
         current = current.right
       } else {
         if (current.left && current.right) {
-          const inOrderSuccessor = this._findMinRightLeftNode(current)
+          const inOrderSuccessor = this._findMinRightLeftNode(current) ?? null
 
-          this.delete(inOrderSuccessor.value)
+          if (inOrderSuccessor?.value) {
+            this.delete(inOrderSuccessor.value)
+          }
 
           current.left.parent = inOrderSuccessor
           if (current.right) {
             current.right.parent = inOrderSuccessor
           }
 
-          inOrderSuccessor.left = current.left
-          inOrderSuccessor.right = current.right
-          inOrderSuccessor.parent = parent
+          if (inOrderSuccessor) {
+            inOrderSuccessor.left = current.left
+            inOrderSuccessor.right = current.right
+            inOrderSuccessor.parent = parent
+          }
           if (!parent) {
             this.root = inOrderSuccessor
-            this.root.color = Node.red
+            if (this.root) {
+              this.root.color = Node.red
+            }
             break
           } else if (parent.left === current) {
             parent.left = inOrderSuccessor
@@ -175,8 +204,9 @@ class RedBlackTree {
           }
 
           if (
-            current.color === Node.red ||
-            inOrderSuccessor.color === Node.red
+            (current.color === Node.red ||
+              inOrderSuccessor?.color === Node.red) &&
+            inOrderSuccessor
           ) {
             inOrderSuccessor.color = Node.black
           } else {
@@ -230,20 +260,20 @@ class RedBlackTree {
           }
           break
         } else {
-          u = new Node(null)
+          u = new Node(Infinity)
           u.parent = parent
 
           if (current.color === Node.black) {
-            if (parent.left === current) {
+            if (parent?.left === current) {
               parent.left = u
-            } else {
+            } else if (parent?.right) {
               parent.right = u
             }
             this._fixDelete(u)
           } else {
-            if (parent.left === current) {
+            if (parent?.left === current) {
               parent.left = null
-            } else {
+            } else if (parent?.right) {
               parent.right = null
             }
           }
@@ -253,8 +283,8 @@ class RedBlackTree {
     }
   }
 
-  _findMinRightLeftNode(node) {
-    let left = node.right
+  _findMinRightLeftNode(node: NodeOrNull) {
+    let left = node?.right
 
     while (left && left.left) {
       left = left.left
@@ -263,32 +293,34 @@ class RedBlackTree {
     return left
   }
 
-  _fixDelete(node) {
-    const parent = node.parent
-    let sibling = null
+  _fixDelete(node: NodeOrNull) {
+    const parent = node?.parent ?? null
+    let sibling: NodeOrNull | null = null
 
-    function handleBlackSiblingChildren() {
-      sibling.color = Node.red
+    function handleBlackSiblingChildren(this: RedBlackTree) {
+      if (sibling?.color) {
+        sibling.color = Node.red
+      }
 
       if (parent === this.root) {
         return
       }
 
-      if (parent.color === Node.red) {
+      if (parent?.color === Node.red) {
         parent.color = Node.black
       } else {
         this._fixDelete(parent)
       }
     }
 
-    if (parent.left === node) {
+    if (parent?.left === node) {
       sibling = parent.right
     } else {
-      sibling = parent.left
+      sibling = parent?.left ?? null
     }
 
-    if (parent.left === sibling) {
-      if (sibling.color === Node.black) {
+    if (parent?.left === sibling) {
+      if (sibling?.color === Node.black) {
         if (sibling.left && sibling.left.color === Node.red) {
           sibling.left.color = Node.black
           this.rotateRight(parent)
@@ -299,17 +331,19 @@ class RedBlackTree {
           this.rotateLeft(sibling)
           this.rotateRight(parent)
         } else {
-          handleBlackSiblingChildren()
+          handleBlackSiblingChildren.call(this)
         }
       } else {
-        sibling.color = Node.black
+        if (sibling) {
+          sibling.color = Node.black
+        }
         parent.color = Node.red
 
         this.rotateRight(parent)
         this._fixDelete(node)
       }
     } else {
-      if (sibling.color === Node.black) {
+      if (sibling?.color === Node.black) {
         if (sibling.right && sibling.right.color === Node.red) {
           sibling.right.color = Node.black
           this.rotateLeft(parent)
@@ -319,27 +353,33 @@ class RedBlackTree {
           this.rotateRight(sibling)
           this.rotateLeft(parent)
         } else {
-          handleBlackSiblingChildren()
+          handleBlackSiblingChildren.call(this)
         }
       } else {
-        sibling.color = Node.black
-        parent.color = Node.red
+        if (sibling) {
+          sibling.color = Node.black
+        }
+        if (parent) {
+          parent.color = Node.red
+        }
 
         this.rotateLeft(parent)
         this._fixDelete(node)
       }
     }
 
-    if (node.value === null) {
-      if (parent.left === node) {
+    if (node?.value === Infinity) {
+      if (parent?.left === node) {
         parent.left = null
       } else {
-        parent.right = null
+        if (parent) {
+          parent.right = null
+        }
       }
     }
   }
 
-  contains(value) {
+  contains(value: number) {
     let current = this.root
 
     while (current) {
@@ -369,4 +409,4 @@ class RedBlackTree {
 // debugger
 // tree.delete(50)
 
-module.exports = RedBlackTree
+export default RedBlackTree

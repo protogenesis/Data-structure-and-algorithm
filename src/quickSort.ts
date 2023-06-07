@@ -1,8 +1,11 @@
-function quickSort(arr) {
+export default function quickSort(arr: number[]) {
   const pivot = arr.at(-1)
+  if (pivot === undefined) {
+    return []
+  }
 
-  let left = []
-  let right = []
+  let left: number[] = []
+  let right: number[] = []
 
   for (let i = 0; i < arr.length - 1; i++) {
     const item = arr[i]
@@ -17,7 +20,7 @@ function quickSort(arr) {
     const res = quickSort(left)
     left = res
   }
-  
+
   if (right.length > 1) {
     const res = quickSort(right)
     right = res
@@ -25,9 +28,11 @@ function quickSort(arr) {
 
   const result = [...left, pivot, ...right]
   return result
-
 }
-console.log(quickSort([2, -6, 1, 0, 4, 99, -24, -444, 1,99,23,-5]))
+
+// const input = [2, 6, 1, 0, 4, 99, 24, 444, 1, 99, 23, 5]
+// console.log(quickSort(input), 123)
+
 
 // quickSort([-6,20,2,-2,8])
 

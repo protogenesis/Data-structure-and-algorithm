@@ -1,16 +1,18 @@
 class Vertex {
-  constructor(value) {
+  public children: Map<Vertex, number>
+  constructor(public value: string) {
     this.value = value
     this.children = new Map()
   }
 }
 
 class WeightedGraph {
+  public vertices: Set<Vertex>
   constructor() {
     this.vertices = new Set()
   }
 
-  addVertex(value) {
+  addVertex(value: string) {
     for (const vertex of this.vertices) {
       if (vertex.value === value) {
         return vertex
@@ -22,7 +24,7 @@ class WeightedGraph {
     return vertex
   }
 
-  addEdge(from, to, weight) {
+  addEdge(from: Vertex, to: Vertex, weight: number) {
     if (!this.vertices.has(from)) {
       this.vertices.add(from)
     }
@@ -43,14 +45,14 @@ class WeightedGraph {
     }
   }
 
-  printChildren(vertices) {
+  printChildren(vertices: Vertex['children']) {
     vertices.forEach((weight, vertex) => {
       console.log("---", vertex.value, weight)
     })
   }
 }
 
-module.exports = WeightedGraph
+export default WeightedGraph
 
 // const graph = new WeightedGraph()
 // const vertexA = graph.addVertex("A")
