@@ -18,3 +18,5 @@ build/
 .env.*.local
 
 coverage/
+
+.vscode/
