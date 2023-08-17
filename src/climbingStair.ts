@@ -1,15 +1,11 @@
 function climbingStair(n: number): number {
-  // n > >= 0
-  if (n <= 3) {
-    return n
-  }
+	const arr = [0, 1]
+	for (let i = 2; i < n; i++) {
+		arr[i] = arr[i - 2] + arr[i - 1]
+	}
 
-  return climbingStair(n - 2) + climbingStair(n - 1)
-
-  // or just using for loop.
+	return arr[n - 1]
 }
-console.log(climbingStair(4))
+console.log(climbingStair(5))
 
-// 4: 1111,121,112,211,22
-
-// O(n^3)
+// O(n)

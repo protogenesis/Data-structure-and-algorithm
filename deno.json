@@ -1,0 +1,19 @@
+{
+  "fmt": {
+    "indentWidth": 2,
+    "semiColons": false,
+    "singleQuote": true,
+    "proseWrap": "preserve",
+    "include": [
+      "src/"
+    ],
+    "exclude": []
+  },
+  "lint": {
+    "rules": {
+      "exclude": [
+        "no-extra-semi"
+      ]
+    }
+  }
+}

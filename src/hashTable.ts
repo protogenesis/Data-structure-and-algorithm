@@ -21,10 +21,13 @@ class HashTable {
     if (!bucket || !bucket.length) {
       bucket = [[key, value]]
     } else {
+      // find the same key
       const item = bucket.find(([itemKey]) => itemKey === key)
       if (item) {
+        // replace
         item[1] = value
       } else {
+        // add
         bucket.push([key, value])
       }
     }
@@ -53,12 +56,12 @@ class HashTable {
 }
 
 const hashTable = new HashTable()
-hashTable.set("name", "liao")
+hashTable.set('name', 'liao')
 
-console.log(hashTable.get("name"))
+console.log(hashTable.get('name'))
 
-hashTable.set("mane", "oho")
+hashTable.set('mane', 'oho')
 
-console.log(hashTable.get("mane"))
-console.log(hashTable.get("name"))
-console.log(hashTable.get("nae"))
+console.log(hashTable.get('mane'))
+console.log(hashTable.get('name'))
+console.log(hashTable.get('nae'))
